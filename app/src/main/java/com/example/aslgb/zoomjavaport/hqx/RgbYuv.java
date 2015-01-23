@@ -28,6 +28,8 @@ public final class RgbYuv {
 	private static final int rgbMask = 0x00FFFFFF;
 	private static int[] RGBtoYUV = new int[0x1000000];
 
+    private static boolean isInited = false;
+
 	/**
 	 * Returns the 24bit YUV equivalent of the provided 24bit RGB color.<b>Any alpha component is dropped</b>
 	 *
@@ -42,6 +44,9 @@ public final class RgbYuv {
 	 * Calculates the lookup table. <b>MUST</b> be called (only once) before doing anything else
 	 */
 	public static void hqxInit() {
+        if (isInited) {
+            return;
+        }
 		/* Initalize RGB to YUV lookup table */
 		int r, g, b, y, u, v;
 		for (int c = 0x1000000 - 1; c >= 0; c--) {
@@ -53,6 +58,7 @@ public final class RgbYuv {
 			v = (int) (+0.500d * r - 0.419d * g - 0.081d * b) + 128;
 			RGBtoYUV[c] = (y << 16) | (u << 8) | v;
 		}
+        isInited = true;
 	}
 
 	/// <summary>

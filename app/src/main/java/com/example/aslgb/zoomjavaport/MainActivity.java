@@ -45,7 +45,6 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
             imageUrl = data.toString();
         }
 
-
         final ProgressDialog progress;
         progress = ProgressDialog.show(this, "Downloading", "", true);
         AsyncTask<Void, Void, Void> asyncTask = new AsyncTask<Void, Void, Void>() {
@@ -61,28 +60,6 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
         };
         asyncTask.execute();
 
-
-        final ProgressDialog progress1;
-        progress1 = ProgressDialog.show(this, "Preparing", "", true);
-        AsyncTask<Void, Void, Void> asyncTask1 = new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                RgbYuv.hqxInit();
-                return null;
-            }
-
-            protected void onPostExecute(Void result) {
-                progress1.dismiss();
-            }
-        };
-        asyncTask1.execute();
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        RgbYuv.hqxDeinit();
-        super.onDestroy();
     }
 
     private void downloadImage() {
@@ -152,6 +129,7 @@ public class MainActivity extends Activity implements RadioGroup.OnCheckedChange
                 return dr;
             }
 
+            RgbYuv.hqxInit();
             final int[] data = new int[d.getWidth() * d.getHeight()];
             d.getPixels(data, 0, d.getWidth(), 0, 0, d.getWidth(), d.getHeight());
             final int[] dataDest = new int[w * h];
